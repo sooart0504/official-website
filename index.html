@@ -3,499 +3,951 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soo Ji Serisse Choi</title>
+<title>Soo Ji Serisse Choi — HCI Researcher</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+/* ============================================================
+   TOKENS
+============================================================ */
 :root {
-    --primary: #8B4049;
-    --primary-dark: #6B2F36;
-    --accent: #C97D60;
-    --text-dark: #2C2C2C;
-    --text-medium: #5A5A5A;
-    --text-light: #8E8E8E;
-    --bg-light: #FAFAF8;
-    --bg-cream: #F5F2ED;
-    --border: #E5DFD6;
+  --cream:      #F8F5F0;
+  --parchment:  #EFE9DF;
+  --wine:       #6B2D3E;
+  --wine-deep:  #4A1D2A;
+  --terra:      #B8704E;
+  --ink:        #26201C;
+  --stone:      #6B645C;
+  --mist:       #A8A09A;
+  --rule:       #DDD6CC;
+
+  --ff-serif:   'Crimson Pro', Georgia, serif;
+  --ff-sans:    'DM Sans', system-ui, sans-serif;
+
+  --max-w:      1100px;
+  --nav-h:      64px;
+
+  --ease-out:   cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
+/* ============================================================
+   RESET + BASE
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    color: var(--text-dark);
-    background: var(--bg-light);
-    line-height: 1.7;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
+  font-family: var(--ff-sans);
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
-    font-family: 'Crimson Pro', serif;
-    font-weight: 600;
-    line-height: 1.3;
+h1, h2, h3, h4 { font-family: var(--ff-serif); line-height: 1.2; font-weight: 400; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--terra); color: #fff; }
+
+/* ============================================================
+   NOISE OVERLAY (subtle paper texture)
+============================================================ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
 }
 
-/* ================= NAVIGATION ================= */
-
+/* ============================================================
+   NAVIGATION
+============================================================ */
 nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(250, 250, 248, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    z-index: 1000;
-    padding: 1.5rem 0;
-    transition: all 0.3s ease;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(248,245,240,0.9);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  transition: box-shadow 0.3s ease;
 }
+nav.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
 
-nav.scrolled {
-    padding: 1rem 0;
-    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.nav-inner {
+  width: 100%; max-width: var(--max-w);
+  margin: 0 auto; padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
 }
 
 .logo {
-    font-family: 'Crimson Pro', serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    text-decoration: none;
+  font-family: var(--ff-serif);
+  font-size: 1.2rem;
+  color: var(--wine-deep);
+  letter-spacing: 0.01em;
 }
 
 .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
+  list-style: none;
+  display: flex;
+  gap: 2.5rem;
 }
-
 .nav-links a {
-    color: var(--text-medium);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    position: relative;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stone);
+  position: relative;
+  padding-bottom: 2px;
+  transition: color 0.25s ease;
 }
-
-.nav-links a:hover {
-    color: var(--primary);
-}
-
 .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--primary);
-    transition: width 0.3s ease;
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1px;
+  background: var(--wine);
+  transition: width 0.3s var(--ease-out);
 }
-
-.nav-links a:hover::after {
-    width: 100%;
-}
+.nav-links a:hover { color: var(--wine); }
+.nav-links a:hover::after { width: 100%; }
 
 /* Hamburger */
-
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
 }
-
-.menu-toggle span {
-    width: 24px;
-    height: 2px;
-    background: var(--primary-dark);
+.hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--wine-deep);
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-/* ================= HERO ================= */
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+}
+.reveal.in-view { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
 
+/* ============================================================
+   HERO
+============================================================ */
 .hero {
-    margin-top: 5rem;
-    padding: 6rem 2rem;
-    background: linear-gradient(135deg, var(--bg-cream), var(--bg-light));
+  margin-top: var(--nav-h);
+  padding: 7rem 2rem 6rem;
+  background: linear-gradient(160deg, var(--parchment) 0%, var(--cream) 60%);
+  position: relative;
+  overflow: hidden;
 }
 
-.hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
+/* Decorative arc */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -120px; right: -120px;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  pointer-events: none;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: -60px; right: -60px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  pointer-events: none;
 }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-    color: var(--primary-dark);
-    margin-bottom: 1.5rem;
-    line-height: 1.1;
+.hero-grid {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5rem;
+  align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
-.hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-medium);
-    margin-bottom: 2rem;
-    font-weight: 300;
+.hero-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeSlide 0.8s var(--ease-out) 0.1s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--terra);
 }
 
-.hero-links {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
+.hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  color: var(--wine-deep);
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeSlide 0.9s var(--ease-out) 0.2s forwards;
+}
+
+.hero-bio {
+  font-size: 1rem;
+  color: var(--stone);
+  max-width: 520px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  opacity: 0;
+  animation: fadeSlide 0.9s var(--ease-out) 0.35s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeSlide 0.9s var(--ease-out) 0.45s forwards;
 }
 
 .btn {
-    padding: 0.7rem 1.8rem;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  font-family: var(--ff-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: all 0.25s var(--ease-out);
+  cursor: pointer;
+  border: none;
+}
+.btn-filled {
+  background: var(--wine);
+  color: #fff;
+}
+.btn-filled:hover {
+  background: var(--wine-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(107,45,62,0.25);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--wine);
+  border: 1.5px solid var(--wine);
+}
+.btn-outline:hover {
+  background: var(--wine);
+  color: #fff;
+  transform: translateY(-2px);
 }
 
-.btn-primary {
-    background: var(--primary);
-    color: white;
+.hero-contact {
+  font-size: 0.88rem;
+  color: var(--stone);
+  opacity: 0;
+  animation: fadeSlide 0.9s var(--ease-out) 0.55s forwards;
+}
+.hero-contact strong { color: var(--ink); font-weight: 500; }
+.hero-contact a {
+  color: var(--terra);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.hero-contact a:hover { border-color: var(--terra); }
+
+.hero-portrait {
+  width: 280px;
+  flex-shrink: 0;
+  opacity: 0;
+  animation: fadeSlide 1s var(--ease-out) 0.25s forwards;
+}
+.hero-portrait img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 16px 56px rgba(0,0,0,0.14);
+  filter: sepia(6%) contrast(1.02);
+}
+.portrait-caption {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--mist);
+  text-align: center;
+  letter-spacing: 0.06em;
 }
 
-.btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(139,64,73,0.3);
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
 }
 
-.btn-secondary {
-    background: transparent;
-    color: var(--primary);
-    border: 2px solid var(--primary);
+/* ============================================================
+   SECTION SHELL
+============================================================ */
+.section {
+  padding: 6rem 2rem;
+}
+.section:nth-child(even) { background: var(--parchment); }
+
+.section-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
 }
 
-.btn-secondary:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-2px);
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
-
-.hero-image img {
-    width: 100%;
-    max-width: 450px;
-    border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-}
-
-/* ================= CONTENT ================= */
-
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-}
-
-section {
-    margin-bottom: 6rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s ease;
-}
-
-section.visible {
-    opacity: 1;
-    transform: translateY(0);
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 40px;
+  height: 1px;
+  background: var(--terra);
 }
 
 .section-title {
-    font-size: 2.5rem;
-    color: var(--primary-dark);
-    margin-bottom: 2rem;
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  color: var(--wine-deep);
+  margin-bottom: 2.5rem;
+  font-weight: 300;
 }
 
-/* ================= MOBILE ================= */
-
-@media (max-width: 768px) {
-
-    .menu-toggle {
-        display: flex;
-    }
-
-    .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: white;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        padding: 2rem 0;
-        display: none;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .nav-links.active {
-        display: flex;
-    }
-
-    .hero-container {
-        grid-template-columns: 1fr;
-    }
-
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
+/* ============================================================
+   ABOUT
+============================================================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 4rem;
+  align-items: start;
 }
 
-::selection {
-    background: var(--accent);
-    color: white;
+.about-body p {
+  font-size: 1.05rem;
+  color: var(--stone);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.about-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-card {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.25rem 1.4rem;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.info-card:hover {
+  border-color: var(--terra);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.info-card-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.6rem;
+}
+
+.info-card p {
+  font-size: 0.87rem;
+  color: var(--stone);
+  line-height: 1.65;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.tag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  background: var(--parchment);
+  color: var(--stone);
+  border: 1px solid var(--rule);
+  font-weight: 400;
+  transition: background 0.2s, color 0.2s;
+}
+.tag:hover { background: var(--wine); color: #fff; border-color: var(--wine); }
+
+/* ============================================================
+   PUBLICATIONS
+============================================================ */
+.pub-list { display: flex; flex-direction: column; gap: 0; }
+
+.pub-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 1.75rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--rule);
+  transition: all 0.2s ease;
+  position: relative;
+}
+.pub-item:first-child { border-top: 1px solid var(--rule); }
+
+.pub-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0; bottom: 0;
+  width: 2px;
+  background: var(--wine);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s var(--ease-out);
+  border-radius: 2px;
+}
+.pub-item:hover::before { transform: scaleY(1); }
+
+.pub-year {
+  font-family: var(--ff-serif);
+  font-size: 1.1rem;
+  color: var(--mist);
+  font-style: italic;
+  line-height: 1.5;
+  min-width: 3.5rem;
+  text-align: right;
+}
+
+.pub-type {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 0.4rem;
+}
+
+.pub-title {
+  font-family: var(--ff-serif);
+  font-size: 1.15rem;
+  color: var(--wine-deep);
+  margin-bottom: 0.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+.pub-title a {
+  transition: color 0.2s;
+  border-bottom: 1px solid transparent;
+}
+.pub-title a:hover { color: var(--wine); border-color: var(--wine); }
+
+.pub-venue {
+  font-size: 0.83rem;
+  color: var(--stone);
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.pub-citation {
+  font-size: 0.78rem;
+  color: var(--mist);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* ============================================================
+   PROJECTS
+============================================================ */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.project-card {
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--wine), var(--terra));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-out);
+}
+.project-card:hover::before { transform: scaleX(1); }
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.09);
+  border-color: transparent;
+}
+
+.project-year {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terra);
+}
+
+.project-title {
+  font-family: var(--ff-serif);
+  font-size: 1rem;
+  color: var(--wine-deep);
+  line-height: 1.5;
+  font-weight: 400;
+  flex: 1;
+}
+
+.project-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  background: var(--parchment);
+  border: 1px solid var(--rule);
+  color: var(--stone);
+  align-self: flex-start;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer {
+  background: var(--wine-deep);
+  padding: 3rem 2rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-name {
+  font-family: var(--ff-serif);
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.85);
+  font-weight: 300;
+}
+.footer-role {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 0.2rem;
+  letter-spacing: 0.05em;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.75rem;
+}
+.footer-links a {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: rgba(255,255,255,0.9); }
+
+.footer-copy {
+  width: 100%;
+  font-size: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+@media (max-width: 720px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .hero-portrait { width: 100%; max-width: 280px; margin: 0 auto; }
+
+  .nav-links {
+    position: fixed;
+    top: var(--nav-h); left: 0; right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--rule);
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 0;
+    display: none;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-links a::after { display: none; }
+  .hamburger { display: flex; }
+
+  .pub-item { grid-template-columns: 1fr; gap: 0.25rem 0; }
+  .pub-year { text-align: left; font-size: 0.85rem; }
+
+  .footer-inner { flex-direction: column; gap: 1.25rem; }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 4rem 1.5rem 4rem; }
+  .section { padding: 4rem 1.5rem; }
+  .projects-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
-
 <body>
 
-<nav id="navbar">
-<div class="nav-container">
-<a href="#" class="logo">Soo Ji S. Choi</a>
-
-<div class="menu-toggle" id="mobile-menu">
-<span></span>
-<span></span>
-<span></span>
-</div>
-
-<ul class="nav-links" id="nav-links">
-<li><a href="#about">About</a></li>
-<li><a href="#publications">Publications</a></li>
-<li><a href="#projects">Projects</a></li>
-</ul>
-</div>
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">Soo Ji S. Choi</a>
+    <div class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+    </ul>
+  </div>
 </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1>👋🏼 I'm an HCI researcher at the intersection of technology, behavior, and health.</h1>
-                <p class="hero-subtitle">PhD Candidate at the University of Michigan School of Information</p>
-                <div class="hero-links">
-                    <a href="https://scholar.google.com/citations?hl=en&user=Qgc9u_oAAAAJ" class="btn btn-primary" target="_blank">Google Scholar</a>
-                    <a href="https://drive.google.com/file/d/1nlX2vY3HdgKwwLpjyAOzKkP2WuBMeMsI/view?usp=sharing" class="btn btn-secondary" target="_blank">Download CV</a>
-                </div>
-                <div class="contact-info">
-                    <strong>Soo Ji Serisse Choi</strong><br>
-                    <a href="mailto:soojc@umich.edu">soojc@umich.edu</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="https://cdn.prod.website-files.com/611ff714497d8783b8661aec/612000bf5ec861840f4a4603_IMG_7970.jpeg" alt="Portrait of Soo Ji Serisse Choi">
-            </div>
-        </div>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-content">
+      <p class="hero-eyebrow">HCI &amp; mHealth Research</p>
+      <h1>Technology, behavior,<br><em>and health.</em></h1>
+      <p class="hero-bio">PhD Candidate at the University of Michigan School of Information, studying how mobile health technologies can help people build healthy, lasting behavior change.</p>
+      <div class="hero-actions">
+        <a href="https://scholar.google.com/citations?hl=en&user=Qgc9u_oAAAAJ" class="btn btn-filled" target="_blank">
+          Google Scholar
+        </a>
+        <a href="https://drive.google.com/file/d/1nlX2vY3HdgKwwLpjyAOzKkP2WuBMeMsI/view?usp=sharing" class="btn btn-outline" target="_blank">
+          Download CV
+        </a>
+      </div>
+      <div class="hero-contact">
+        <strong>Soo Ji Serisse Choi</strong><br>
+        <a href="mailto:soojc@umich.edu">soojc@umich.edu</a>
+      </div>
+    </div>
+    <div class="hero-portrait">
+      <img src="https://cdn.prod.website-files.com/611ff714497d8783b8661aec/612000bf5ec861840f4a4603_IMG_7970.jpeg" alt="Portrait of Soo Ji Serisse Choi">
+    </div>
+  </div>
+</section>
 
-    <!-- About Section -->
-    <section id="about" class="container">
-        <div class="section-header">
-            <h2 class="section-title">About Me</h2>
-        </div>
-        <div class="about-content">
-            <p>I am currently a Ph.D. candidate at the School of Information, University of Michigan. Co-advised by Dr. Mark W. Newman and Dr. Pedja Klasnja, I study how mobile health (mHealth) technologies can help people build healthy and long-lasting behavior change.</p>
-            
-            <div class="keywords">
-                <h3>Research Focus</h3>
-                <p>I study how mobile health (mHealth) technologies can support people in building a healthy and sustainable relationships with health behaviors like physical activity, especially among middle-aged and older adults. By integrating insights from behavioral medicine and psychology with human-centered design, my work aims to understand the underlying mechanisms that drive lasting change (i.e., intrinsic motivation, values and identity) to design interventions that are both theory-driven and adaptive to users' dynamic and personal needs. My goal is to bridge the fields of Human-Computer Interaction (HCI) and behavioral medicine, designing solutions that empower individuals to make lasting, meaningful changes in their everyday lives.</p>
-            </div>
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-inner">
+    <p class="section-label reveal">Background</p>
+    <h2 class="section-title reveal reveal-delay-1">About Me</h2>
 
-            <div class="keywords">
-                <h3>Keywords</h3>
-                <p>Human-centered Design (HCD), User Experience (UX), Long-term Behavior Change, Physical Activity, Intrinsic Motivation, Affective associations and Beliefs, Identities and Values, Personalized and Adaptive Interventions</p>
-            </div>
+    <div class="about-grid">
+      <div class="about-body reveal reveal-delay-2">
+        <p>I am a Ph.D. candidate at the School of Information, University of Michigan, co-advised by Dr. Mark W. Newman and Dr. Pedja Klasnja. My research lives at the intersection of human-computer interaction (HCI) and behavioral medicine.</p>
+        <p>I study how mobile health (mHealth) technologies can support people in building sustainable relationships with health behaviors like physical activity — especially among middle-aged and older adults. By integrating insights from behavioral medicine and psychology with human-centered design, my work aims to understand and design for the underlying mechanisms that drive lasting change (i.e., intrinsic motivation, values and identity) that are both theory-driven and adaptive to users' dynamic and personal needs.</p>
+      </div>
 
-            <div class="keywords">
-                <h3>Related Fields</h3>
-                <p>mobile Health (mHealth), Human-computer Interaction (HCI), Behavioral Science and Medicine, Personal Health Informatics, Preventive Medicine, Digital Therapeutics (DTx)</p>
-            </div>
-
-            <div class="keywords">
-                <h3>Research Methods</h3>
-                <p>Needs Assessments and Interviews, Participatory Designs and Co-designs, Micro-randomized Trials (MRT), Factorial Designs, Just-in-time Adaptive Interventions (JITAIs), Randomized Controlled Trials (RCTs)</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Publications Section -->
-    <section id="publications" class="container">
-        <div class="section-header">
-            <h2 class="section-title">Selected Publications</h2>
+      <div class="about-cards reveal reveal-delay-3">
+        <div class="info-card">
+          <p class="info-card-label">Research Focus</p>
+          <div class="tag-list">
+            <span class="tag">Long-term Behavior Change</span>
+            <span class="tag">Physical Activity</span>
+            <span class="tag">Intrinsic Motivation</span>
+            <span class="tag">Identities &amp; Values</span>
+            <span class="tag">Adaptive Interventions</span>
+            <span class="tag">Older Adults</span>
+          </div>
         </div>
 
-        <div class="publication">
-            <span class="pub-type">Journal Article</span>
-            <h3 class="pub-title">
-                <a href="https://www.jmir.org/2025/1/e75792" target="_blank">Improving Affective Associations with Physical Activity via Message-Based Mobile Health Interventions: A Proof-of-Concept Trial of the WalkToJoy Intervention</a>
-            </h3>
-            <p class="pub-meta">First author, JMIR • Published August 2025</p>
-            <p class="pub-citation">Choi, S. J. S., Hung, P. Y., Liu, M., Dempsey, W., Newman, M. W., & Klasnja, P. (2025). Improving Affective Associations With Physical Activity via a Message-Based mHealth Intervention (WalkToJoy): Proof-of-Concept Study. Journal of Medical Internet Research, 27, e75792.</p>
+        <div class="info-card">
+          <p class="info-card-label">Related Fields</p>
+          <div class="tag-list">
+            <span class="tag">mHealth</span>
+            <span class="tag">HCI</span>
+            <span class="tag">Behavioral Science and Medicine</span>
+            <span class="tag">Health Informatics</span>
+            <span class="tag">Preventive Medicine</span>
+            <span class="tag">Digital Therapeutics (DTx)</span>
+          </div>
         </div>
 
-        <div class="publication">
-            <span class="pub-type">Master's Thesis</span>
-            <h3 class="pub-title">Improving affective valuations of physical activity with mobile technology: A protocol for a hybrid factorial/micro-randomized trial</h3>
-            <p class="pub-meta">First author • Submitted August 2022</p>
-            <p class="pub-citation">Choi, S. J. (2022). Improving affective valuations of physical activity with mobile technology: A protocol for a hybrid factorial/micro-randomized trial. Deep Blue. https://dx.doi.org/10.7302/5862</p>
+        <div class="info-card">
+          <p class="info-card-label">Methods</p>
+          <div class="tag-list">
+            <span class="tag">Needs Assessments</span>
+            <span class="tag">Participatory Designs</span>
+            <span class="tag">Human Centered Designs</span>
+            <span class="tag">MRTs</span>
+            <span class="tag">JITAIs</span>
+            <span class="tag">Factorial Designs</span>
+            <span class="tag">RCTs</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="publication">
-            <span class="pub-type">Journal Article</span>
-            <h3 class="pub-title">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/35343906/" target="_blank">A Physical Activity Just-in-time Adaptive Intervention Designed in Partnership With a Predominantly Black Community: Virtual, Community-Based Participatory Design</a>
-            </h3>
-            <p class="pub-meta">Co-author, JMIR Formative Research • Published March 2022</p>
-            <p class="pub-citation">Robles, M. C., Newman, M. W., Doshi, A., Bailey, S., Huang, L., Choi, S. J., ... & Skolarus, L. E. (2022). A Physical Activity Just-in-time Adaptive Intervention Designed in Partnership With a Predominantly Black Community: Virtual, Community-Based Participatory Design Approach. JMIR Formative Research, 6(3), e33087.</p>
+<!-- PUBLICATIONS -->
+<section class="section" id="publications">
+  <div class="section-inner">
+    <p class="section-label reveal">Research Output</p>
+    <h2 class="section-title reveal reveal-delay-1">Selected Publications</h2>
+
+    <div class="pub-list">
+
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2025</div>
+        <div>
+          <p class="pub-type">Journal Article</p>
+          <h3 class="pub-title">
+            <a href="https://www.jmir.org/2025/1/e75792" target="_blank">Improving Affective Associations with Physical Activity via Message-Based mHealth Interventions: A Proof-of-Concept Trial of WalkToJoy</a>
+          </h3>
+          <p class="pub-venue">First author · <em>Journal of Medical Internet Research</em> · August 2025</p>
+          <p class="pub-citation">Choi, S. J. S., Hung, P. Y., Liu, M., Dempsey, W., Newman, M. W., &amp; Klasnja, P. (2025). JMIR, 27, e75792.</p>
         </div>
+      </div>
 
-        <div class="publication">
-            <span class="pub-type">Journal Article</span>
-            <h3 class="pub-title">
-                <a href="https://link.springer.com/article/10.1007/s10055-021-00600-8" target="_blank">Evaluation of Visual Induced Motion Sickness from Head Mounted Display using Heartbeat Evoked Potential: A Cognitive Load-Focused Approach</a>
-            </h3>
-            <p class="pub-meta">Co-author, Virtual Reality • Published December 2021</p>
-            <p class="pub-citation">Park, S., Kim, L., Kwon, J., Choi S. J., & Whang M. (2021). Evaluation of visual-induced motion sickness from head-mounted display using heartbeat evoked potential: a cognitive load-focused approach. Virtual Reality. https://doi.org/10.1007/s10055-021-00600-8</p>
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2022</div>
+        <div>
+          <p class="pub-type">Master's Thesis</p>
+          <h3 class="pub-title">Improving affective valuations of physical activity with mobile technology: A protocol for a hybrid factorial/micro-randomized trial</h3>
+          <p class="pub-venue">First author · University of Michigan Deep Blue · Submitted August 2022</p>
+          <p class="pub-citation">Choi, S. J. (2022). Deep Blue. https://dx.doi.org/10.7302/5862</p>
         </div>
+      </div>
 
-        <div class="publication">
-            <span class="pub-type">Patent</span>
-            <h3 class="pub-title">Method and apparatus for measuring emotional contagion</h3>
-            <p class="pub-meta">Co-inventor • Published December 2021</p>
-            <p class="pub-citation">Park, S. I., Whang, M. C., Choi, S. J., Lee, D. W., & Mun, S. C. (2021). U.S. Patent Application No. 16/906,791.</p>
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2022</div>
+        <div>
+          <p class="pub-type">Journal Article</p>
+          <h3 class="pub-title">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/35343906/" target="_blank">A Physical Activity JITAI Designed in Partnership With a Predominantly Black Community: Virtual, Community-Based Participatory Design</a>
+          </h3>
+          <p class="pub-venue">Co-author · <em>JMIR Formative Research</em> · March 2022</p>
+          <p class="pub-citation">Robles, M. C., Newman, M. W., et al. (2022). JMIR Formative Research, 6(3), e33087.</p>
         </div>
+      </div>
 
-        <div class="publication">
-            <span class="pub-type">Journal Article</span>
-            <h3 class="pub-title">
-                <a href="https://doi.org/10.1016/j.physbeh.2018.04.022" target="_blank">Measurement of emotional contagion using synchronization of heart rhythm pattern between two persons: Application to sales managers and sales force synchronization</a>
-            </h3>
-            <p class="pub-meta">Second Author, Journal of Physiology & Behavior • Published March 2019</p>
-            <p class="pub-citation">Park, S., Choi, S. J., Mun, S., & Whang, M. (2019). Measurement of emotional contagion using synchronization of heart rhythm pattern between two persons: Application to sales managers and sales force synchronization. Physiology & behavior, 200, 148-158. https://doi.org/10.1016/j.physbeh.2018.04.022</p>
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2021</div>
+        <div>
+          <p class="pub-type">Journal Article</p>
+          <h3 class="pub-title">
+            <a href="https://link.springer.com/article/10.1007/s10055-021-00600-8" target="_blank">Evaluation of Visual Induced Motion Sickness from Head Mounted Display using Heartbeat Evoked Potential</a>
+          </h3>
+          <p class="pub-venue">Co-author · <em>Virtual Reality</em> · December 2021</p>
+          <p class="pub-citation">Park, S., Kim, L., Kwon, J., Choi S. J., &amp; Whang M. (2021). Virtual Reality. https://doi.org/10.1007/s10055-021-00600-8</p>
         </div>
-    </section>
+      </div>
 
-    <!-- Projects Section -->
-    <section id="projects" class="container">
-        <div class="section-header">
-            <h2 class="section-title">Recent Projects</h2>
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2021</div>
+        <div>
+          <p class="pub-type">Patent</p>
+          <h3 class="pub-title">Method and apparatus for measuring emotional contagion</h3>
+          <p class="pub-venue">Co-inventor · December 2021</p>
+          <p class="pub-citation">Park, S. I., Whang, M. C., Choi, S. J., Lee, D. W., &amp; Mun, S. C. (2021). U.S. Patent Application No. 16/906,791.</p>
         </div>
+      </div>
 
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-year">2025 - Ongoing</div>
-                <h3 class="project-title">Envisioning Future Selves: Building Intrinsic Motivation with Physical Activity for Middle-aged to Older Adults: an Adaptive mHealth Intervention. Factorial Study.</h3>
-                <span class="project-status">In preparation</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-year">2025</div>
-                <h3 class="project-title">MOVIN-HF: MObile health intervention to INcrease activity in Heart Failure. Aim 2, Human-Centered Design Study.</h3>
-                <span class="project-status">NHLBI (NIH) Grant Funded</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-year">2024 - Ongoing</div>
-                <h3 class="project-title">ADAPT. A mHealth Physical Activity Intervention for Cardiac Rehab Patients. A Formative, MRT, and a Factorial Study.</h3>
-                <span class="project-status">NIH Grant Funded</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-year">2024 - Ongoing</div>
-                <h3 class="project-title">myBPmyLife2. A mHealth, Multi-behavioral JITAI Intervention for Managing Medication Adherence for Hypertension Management.</h3>
-                <span class="project-status">Part of the WIRED-L Center, Funded by the School of Information, University of Michigan</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-year">2021 - 2024</div>
-                <h3 class="project-title">myBPmyLife. A mHealth, Multi-behavioral JITAI Intervention for Hypertension Management. A Participatory Design, RCT with embedded MRT Study.</h3>
-                <span class="project-status">Part of the WIRED-L Center, AHA funded</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-year">2021 - 2024</div>
-                <h3 class="project-title">WalkToJoy. Improving Affective Associations with Physical Activity with Message-based mHealth Intervention: An Intrinsic Approach to Behavior Change. Proof-of-concept Study.</h3>
-                <span class="project-status">Funded by the School of Information, University of Michigan</span>
-            </div>
+      <div class="pub-item reveal reveal-delay-2">
+        <div class="pub-year">2019</div>
+        <div>
+          <p class="pub-type">Journal Article</p>
+          <h3 class="pub-title">
+            <a href="https://doi.org/10.1016/j.physbeh.2018.04.022" target="_blank">Measurement of emotional contagion using synchronization of heart rhythm pattern between two persons</a>
+          </h3>
+          <p class="pub-venue">Second Author · <em>Physiology &amp; Behavior</em> · March 2019</p>
+          <p class="pub-citation">Park, S., Choi, S. J., Mun, S., &amp; Whang, M. (2019). Physiology &amp; behavior, 200, 148–158.</p>
         </div>
-    </section>
+      </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-links">
-                <a href="https://scholar.google.com/citations?hl=en&user=Qgc9u_oAAAAJ" target="_blank">Google Scholar</a>
-                <a href="https://www.behance.net/serisse" target="_blank">Behance</a>
-                <a href="https://www.linkedin.com/in/susie-choi-0504/" target="_blank">LinkedIn</a>
-            </div>
-            <div class="footer-copy">
-                © 2025 Soo Ji Serisse Choi. All rights reserved.
-            </div>
-        </div>
-    </footer>
+    </div>
+  </div>
+</section>
 
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="section-inner">
+    <p class="section-label reveal">Active Work</p>
+    <h2 class="section-title reveal reveal-delay-1">Recent Projects</h2>
 
-const navbar = document.getElementById("navbar");
-const menuToggle = document.getElementById("mobile-menu");
-const navLinks = document.getElementById("nav-links");
+    <div class="projects-grid">
 
-window.addEventListener("scroll", function () {
-if (window.scrollY > 50) {
-navbar.classList.add("scrolled");
-} else {
-navbar.classList.remove("scrolled");
-}
+      <div class="project-card reveal reveal-delay-1">
+        <p class="project-year">2025 – Ongoing</p>
+        <h3 class="project-title">Envisioning Future Selves for Middle-aged to Older Adults, Formative Study</h3>
+        <span class="project-badge">In Preparation</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <p class="project-year">2025</p>
+        <h3 class="project-title">MOVIN-HF: Mobile Health Intervention to Increase Activity in Heart Failure — Human-Centered Design Study, Aim 2</h3>
+        <span class="project-badge">NHLBI (NIH) Grant Funded</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <p class="project-year">2024 – Ongoing</p>
+        <h3 class="project-title">ADAPT: mHealth Physical Activity Intervention for Cardiac Rehab Patients — Formative, MRT, and Factorial Study</h3>
+        <span class="project-badge">NIH Grant Funded</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-1">
+        <p class="project-year">2024 – Ongoing</p>
+        <h3 class="project-title">myBPmyLife 2: Multi-behavioral JITAI for Medication Adherence and Hypertension Management</h3>
+        <span class="project-badge">WIRED-L Center, U-M School of Information</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-2">
+        <p class="project-year">2021 – 2024</p>
+        <h3 class="project-title">myBPmyLife: Multi-behavioral JITAI for Hypertension Management — Participatory Design and RCT with Embedded MRT</h3>
+        <span class="project-badge">WIRED-L Center · AHA Funded</span>
+      </div>
+
+      <div class="project-card reveal reveal-delay-3">
+        <p class="project-year">2021 – 2024</p>
+        <h3 class="project-title">WalkToJoy: Improving Affective Associations with Physical Activity via Message-based mHealth — Proof-of-Concept Study</h3>
+        <span class="project-badge">Funded by U-M School of Information</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-name">Soo Ji Serisse Choi</p>
+      <p class="footer-role">PhD Candidate · University of Michigan, School of Information</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://scholar.google.com/citations?hl=en&user=Qgc9u_oAAAAJ" target="_blank">Google Scholar</a>
+      <a href="https://www.behance.net/serisse" target="_blank">Behance</a>
+      <a href="https://www.linkedin.com/in/susie-choi-0504/" target="_blank">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2026 Soo Ji Serisse Choi. All rights reserved.</div>
+</footer>
+
+<script>
+// Nav scroll state
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+// Mobile hamburger
+const hamburger = document.getElementById('hamburger');
+const navLinks  = document.getElementById('nav-links');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navLinks.classList.remove('open');
+  });
 });
 
-menuToggle.addEventListener("click", function () {
-navLinks.classList.toggle("active");
-});
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in-view');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll("section").forEach(section => {
-const observer = new IntersectionObserver(entries => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-entry.target.classList.add("visible");
-}
-});
-}, { threshold: 0.15 });
-
-observer.observe(section);
-});
-
-});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
-
 </body>
 </html>
